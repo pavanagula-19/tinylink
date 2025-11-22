@@ -1,22 +1,20 @@
 import type { RouteObject } from "react-router-dom";
 import PATH from "./path";
 import { PublicLayout } from "@/layouts/public-layout";
-import Register from "@/pages/register";
 import Login from "@/pages/login";
+import Register from "@/pages/register";
 import Landing from "@/pages/Landing";
 
 export const PublicRoute: RouteObject[] = [
   {
-    index: true,
-    path: PATH.SIGNUP,
+    path: PATH.LANDING,
     element: (
       <PublicLayout>
-        <Register />
+        <Landing />
       </PublicLayout>
     ),
   },
   {
-    index: true,
     path: PATH.LOGIN,
     element: (
       <PublicLayout>
@@ -25,11 +23,10 @@ export const PublicRoute: RouteObject[] = [
     ),
   },
   {
-    index: true,
-    path: PATH.LANDING_PAGE,
+    path: PATH.SIGNUP,
     element: (
       <PublicLayout>
-        <Landing />
+        <Register />
       </PublicLayout>
     ),
   },

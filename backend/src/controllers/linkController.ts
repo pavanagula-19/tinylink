@@ -53,10 +53,53 @@ export const createLink = async (req: AuthRequest, res: Response) => {
 };
 
 export const getLinks = async (req: AuthRequest, res: Response) => {
-  const links = await Link.find({ userId: req.user!.id }).sort({
-    createdAt: -1,
+  const userId = req.user!.id;
+
+  const {
+    code,
+    minClicks,
+    maxClicks,
+    from,
+    to,
+    page = "1",
+    limit = "10",
+  } = req.query;
+
+  const filter: any = { userId };
+
+  if (code) {
+    filter.code = { $regex: String(code), $options: "i" };
+  }
+
+  if (minClicks || maxClicks) {
+    filter.clicks = {};
+    if (minClicks) filter.clicks.$gte = Number(minClicks);
+    if (maxClicks) filter.clicks.$lte = Number(maxClicks);
+  }
+
+  if (from || to) {
+    filter.createdAt = {};
+    if (from) filter.createdAt.$gte = new Date(String(from));
+    if (to) filter.createdAt.$lte = new Date(String(to));
+  }
+
+  const pageNum = Number(page);
+  const limitNum = Number(limit);
+  const skip = (pageNum - 1) * limitNum;
+
+  const [links, total] = await Promise.all([
+    Link.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limitNum),
+
+    Link.countDocuments(filter),
+  ]);
+
+  res.json({
+    page: pageNum,
+    limit: limitNum,
+    total,
+    pages: Math.ceil(total / limitNum),
+    links,
   });
-  return res.json(links);
 };
 
 export const getLinkByCode = async (req: AuthRequest, res: Response) => {
@@ -83,4 +126,41 @@ export const deleteLink = async (req: AuthRequest, res: Response) => {
   if (!deleted) return res.status(404).json({ error: "Not found" });
 
   return res.status(204).send();
+};
+export const updateLink = async (req: AuthRequest, res: Response) => {
+  const { code } = req.params;
+  const { targetUrl, newCode } = req.body;
+
+  if (targetUrl && !isValidUrl(targetUrl)) {
+    return res.status(400).json({ error: "Invalid URL" });
+  }
+
+  if (newCode && !CODE_REGEX.test(newCode)) {
+    return res
+      .status(400)
+      .json({ error: "Code must be 6–8 alphanumeric chars" });
+  }
+
+  if (newCode && newCode !== code) {
+    const exists = await Link.findOne({ code: newCode });
+    if (exists) {
+      return res.status(409).json({ error: "New code already exists" });
+    }
+  }
+
+  const updated = await Link.findOneAndUpdate(
+    { code, userId: req.user!.id },
+    {
+      ...(targetUrl ? { targetUrl } : {}),
+      ...(newCode ? { code: newCode } : {}),
+    },
+    { new: true }
+  );
+
+  if (!updated) return res.status(404).json({ error: "Not found" });
+
+  return res.json({
+    message: "Link updated successfully",
+    link: updated,
+  });
 };

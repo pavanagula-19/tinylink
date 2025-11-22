@@ -6,7 +6,7 @@ export default function Topbar() {
     <motion.div
       initial={{ y: -10, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="flex justify-between items-center px-8 py-5 border-b bg-white"
+      className="flex justify-between items-center px-8 py-5 border-b "
     >
       <div>
         <h1 className="text-xl font-semibold text-gray-900">WasDo Links</h1>

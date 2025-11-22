@@ -21,7 +21,7 @@ const items = [
 
 export default function Features() {
   return (
-    <section id="features" className="py-20 bg-white">
+    <section id="features" className="py-20 ">
       <div className="container mx-auto px-6">
         {/* TITLE */}
         <motion.h2
@@ -58,7 +58,7 @@ export default function Features() {
                   ${
                     isSelected
                       ? "bg-[#241B42] text-white shadow-xl shadow-black/20"
-                      : "bg-white border border-[#241B42] text-[#241B42]"
+                      : " border border-[#241B42] text-[#241B42]"
                   }
                 `}
               >

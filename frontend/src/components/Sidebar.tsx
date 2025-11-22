@@ -1,65 +1,60 @@
+"use client";
+
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Link as LinkIcon,
   BarChart2,
   Activity,
-  Settings,
-  LifeBuoy,
-  FileCode,
   BadgeCheck,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import PATH from "@/routes/path";
 
 export default function Sidebar() {
-  return (
-    <motion.aside
-      initial={{ x: -20, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{ duration: 0.4 }}
-      className="w-64 h-screen bg-white border-r border-gray-200 flex flex-col justify-between p-4"
-    >
-      <div>
-        <div className="flex items-center gap-2 mb-10 px-2">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-            <BadgeCheck className="text-white" size={18} />
-          </div>
-          <span className="text-lg font-semibold text-gray-900">TinyLink</span>
-        </div>
-        <nav className="space-y-2">
-          <SidebarItem icon={<LinkIcon />} label="Dashboard" active />
-          <SidebarItem icon={<BarChart2 />} label="Stats" />
-          <SidebarItem icon={<Activity />} label="Health Check" />
-          <SidebarItem icon={<FileCode />} label="API Docs" />
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
-          <div className="pt-6">
-            <SidebarItem icon={<Settings />} label="Settings" />
-            <SidebarItem icon={<LifeBuoy />} label="Support" />
-          </div>
-        </nav>
-      </div>
-
-      <div className="flex items-center gap-3 p-2">
-        <div className="w-8 h-8 bg-gray-300 rounded-full" />
-        <div>
-          <p className="text-sm font-medium">User</p>
-        </div>
-      </div>
-    </motion.aside>
-  );
-}
-
-function SidebarItem({ icon, label, active }: any) {
-  return (
+  const Item = ({
+    label,
+    icon,
+    path,
+  }: {
+    label: string;
+    icon: any;
+    path: string;
+  }) => (
     <div
-      className={`flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer transition ${
-        active
-          ? "bg-blue-50 text-blue-600 font-medium"
-          : "text-gray-500 hover:bg-gray-50"
-      }`}
+      onClick={() => navigate(path)}
+      className={`flex items-center gap-3 px-4 py-2 rounded-md cursor-pointer
+        ${
+          pathname === path
+            ? "bg-blue-50 text-blue-600"
+            : "text-gray-600 hover:bg-gray-100"
+        }`}
     >
-      <div className="flex items-center gap-3">
-        {icon}
-        <span className="text-sm">{label}</span>
+      {icon} <span>{label}</span>
+    </div>
+  );
+
+  return (
+    <div className="p-4 space-y-4">
+      <div className="flex items-center gap-2 mb-4">
+        <div className="bg-blue-600 w-8 h-8 rounded-md flex items-center justify-center">
+          <BadgeCheck size={18} className="text-white" />
+        </div>
+        <h1 className="font-semibold text-lg">TinyLink</h1>
       </div>
+
+      <Item
+        label="Dashboard"
+        icon={<LinkIcon size={18} />}
+        path={PATH.DASHBOARD}
+      />
+      <Item label="Stats" icon={<BarChart2 size={18} />} path={PATH.STATS} />
+      <Item
+        label="Health Check"
+        icon={<Activity size={18} />}
+        path={PATH.HEALTH}
+      />
     </div>
   );
 }

@@ -2,11 +2,11 @@ import type { RouteObject } from "react-router-dom";
 import PATH from "./path";
 import PrivateLayout from "@/layouts/private-layout";
 import Dashboard from "@/pages/dashboard";
-import StatsPage from "@/pages/stats-page";
+import CodeStats from "@/pages/CodeStats";
+import HealthPage from "@/pages/HealthPage";
 
 export const PrivateRoute: RouteObject[] = [
   {
-    index: true,
     path: PATH.DASHBOARD,
     element: (
       <PrivateLayout>
@@ -15,11 +15,26 @@ export const PrivateRoute: RouteObject[] = [
     ),
   },
   {
-    index: true,
-    path: PATH.STATS_PAGE,
+    path: PATH.STATS,
     element: (
       <PrivateLayout>
-        <StatsPage />
+        <CodeStats />
+      </PrivateLayout>
+    ),
+  },
+  {
+    path: PATH.HEALTH,
+    element: (
+      <PrivateLayout>
+        <HealthPage />
+      </PrivateLayout>
+    ),
+  },
+  {
+    path: PATH.HEALTH,
+    element: (
+      <PrivateLayout>
+        <HealthPage />
       </PrivateLayout>
     ),
   },

@@ -17,7 +17,6 @@ export default function HeroShortener() {
         transition={{ duration: 0.9, ease: "easeOut" }}
         className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#0a1020] to-[#121b33] text-white shadow-xl"
       >
-        {/* Background Image */}
         <motion.img
           src={"https://ik.imagekit.io/pavanagulla19/hero_bg.jpg"}
           alt="hero bg"
@@ -27,11 +26,9 @@ export default function HeroShortener() {
           transition={{ duration: 2, ease: "easeOut" }}
         />
 
-        {/* Overlay gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/40" />
 
         <div className="relative z-10 px-6 md:px-12 py-24">
-          {/* Title */}
           <motion.h1
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -41,7 +38,6 @@ export default function HeroShortener() {
             URL Shortener
           </motion.h1>
 
-          {/* Subtitle */}
           <motion.p
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -51,7 +47,6 @@ export default function HeroShortener() {
             Clean. Fast. Reliable. Paste your long URL and shorten it instantly.
           </motion.p>
 
-          {/* Floating glow behind input */}
           <motion.div
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -59,15 +54,14 @@ export default function HeroShortener() {
             className="absolute left-1/2 -bottom-6 w-[60%] h-24 blur-3xl rounded-full bg-purple-600/20 transform -translate-x-1/2"
           />
 
-          {/* Input Bar */}
           <motion.div
             initial={{ y: 20, opacity: 0, scale: 0.98 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
             className="max-w-3xl mx-auto mt-12"
           >
-            <div className="bg-white rounded-full shadow-lg flex overflow-hidden border border-white/20 backdrop-blur-md transition-all">
-              <div className="px-5 flex items-center text-sm text-gray-500 bg-white/80 rounded-l-full flex-1 border-r backdrop-blur-sm">
+            <div className=" rounded-full shadow-lg flex overflow-hidden border border-white/20 backdrop-blur-md transition-all">
+              <div className="px-5 flex items-center text-sm text-gray-500 /80 rounded-l-full flex-1 border-r backdrop-blur-sm">
                 briefly.link/
                 <input
                   value={value}
@@ -85,7 +79,6 @@ export default function HeroShortener() {
               </Button>
             </div>
 
-            {/* under text */}
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

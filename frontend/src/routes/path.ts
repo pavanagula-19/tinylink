@@ -1,9 +1,11 @@
 const PATH = {
-  LANDING_PAGE: "/",
-  DASHBOARD: "/dashboard",
-  STATS_PAGE: "/code/:code",
-  SIGNUP: "/signup",
+  LANDING: "/",
   LOGIN: "/login",
+  SIGNUP: "/signup",
+  HEALTH: "/healthz",
+  DASHBOARD: "/dashboard",
+  STATS: "/code/:code",
+  TARGETURL: "/code/:code",
 };
 
 export default PATH;

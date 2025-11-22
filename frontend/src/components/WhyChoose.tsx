@@ -5,7 +5,6 @@ export default function WhyChoose() {
   return (
     <section className="bg-[#221B38] text-white py-20">
       <div className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-12">
-        {/* Left Content */}
         <motion.div
           initial={{ x: -30, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
@@ -26,7 +25,6 @@ export default function WhyChoose() {
             dictumst amet lobortis quam porta facilisi.
           </p>
 
-          {/* Learn More Link */}
           <button className="mt-8 text-sm font-medium tracking-wide flex items-center gap-2 text-white relative group">
             <span className="border-b-2 border-purple-300 group-hover:border-white transition-all pb-0.5">
               LEARN MORE ABOUT US
@@ -34,7 +32,6 @@ export default function WhyChoose() {
           </button>
         </motion.div>
 
-        {/* Right side video thumbnail */}
         <motion.div
           initial={{ x: 30, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
@@ -42,16 +39,14 @@ export default function WhyChoose() {
           className="w-full md:w-1/2 flex justify-center"
         >
           <div className="relative aspect-video w-full max-w-md rounded-lg overflow-hidden shadow-lg">
-            {/* Background image */}
             <img
               src={"/mnt/data/c174a18a-51fa-4aa2-867e-895c8a297e6c.png"}
               alt="video placeholder"
               className="w-full h-full object-cover opacity-95"
             />
 
-            {/* Play button */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-16 h-16 bg-white/90 rounded-full shadow-md flex items-center justify-center hover:scale-105 transition">
+              <div className="w-16 h-16 /90 rounded-full shadow-md flex items-center justify-center hover:scale-105 transition">
                 <Play className="text-black" size={30} />
               </div>
             </div>

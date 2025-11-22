@@ -1,78 +1,60 @@
-// src/features/auth/auth-saga.ts
 import { call, put, takeLatest } from "redux-saga/effects";
-import { type PayloadAction } from "@reduxjs/toolkit";
-import { apiClient, setAuthToken } from "@/lib/api";
-import { toast } from "sonner";
+import type { AxiosResponse } from "axios";
+
+import type { LoginRequest, LoginResponse } from "@/types/auth-types";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { setAuthHeader } from "@/lib/api";
+
 import {
-  authFailure,
+  loginFailure,
   loginRequest,
   loginSuccess,
-  logoutRequest,
-  logoutSuccess,
-  registerRequest,
+  registerFailure,
   registerSuccess,
+  registerRequest,
 } from "../slices/auth-slice";
-import type { User } from "@/types/auth-types";
+import { loginApi, registerApi } from "@/api/auth-api";
 
-type LoginResp = { token: string; user: User };
-
-function postLogin(payload: { email: string; password: string }) {
-  return apiClient.post<LoginResp>("/api/auth/login", payload);
-}
-
-function* handleLogin(
-  action: PayloadAction<{ email: string; password: string }>
-) {
-  try {
-    const { data } = yield call(postLogin, action.payload);
-    setAuthToken(data.token);
-    yield put(loginSuccess({ token: data.token, user: data.user }));
-    toast.success("Logged in");
-  } catch (err: any) {
-    const message =
-      err?.response?.data?.error || err?.message || "Login failed. Try again.";
-    yield put(authFailure(message));
-    toast.error(message);
+function getErrorMessage(err: any): string {
+  if (err.response?.data) {
+    const data = err.response.data;
+    if (typeof data === "string") return data;
+    if (data.message) return data.message;
+    if (data.error) return data.error;
+    return JSON.stringify(data);
   }
+  if (err.message) return err.message;
+  return "Something went wrong";
 }
 
-function postRegister(payload: {
-  fullName: string;
-  email: string;
-  password: string;
-}) {
-  return apiClient.post("/api/auth/register", payload);
-}
-
-function* handleRegister(
-  action: PayloadAction<{ fullName: string; email: string; password: string }>
-) {
+function* handleRegister(action: ReturnType<typeof registerRequest>) {
   try {
-    yield call(postRegister, action.payload);
+    yield call(registerApi, action.payload);
     yield put(registerSuccess());
-    toast.success("Registered successfully. Please login.");
   } catch (err: any) {
-    const message =
-      err?.response?.data?.error || err?.message || "Registration failed.";
-    yield put(authFailure(message));
-    toast.error(message);
+    yield put(registerFailure(getErrorMessage(err)));
   }
 }
 
-function* handleLogout() {
+function* handleLogin(action: PayloadAction<LoginRequest>) {
   try {
-    setAuthToken(null);
-    yield put(logoutSuccess());
-    toast.success("Logged out");
+    const response: AxiosResponse<LoginResponse> = yield call(
+      loginApi,
+      action.payload
+    );
+
+    // centralize header + storage
+    const token = response.data.token;
+    setAuthHeader(token);
+
+    // update state using loginSuccess
+    yield put(loginSuccess(response.data));
   } catch (err: any) {
-    const message = err?.message || "Logout failed";
-    yield put(authFailure(message));
-    toast.error(message);
+    yield put(loginFailure(getErrorMessage(err)));
   }
 }
 
-export function* watchAuthSaga() {
-  yield takeLatest(loginRequest.type, handleLogin);
-  yield takeLatest(registerRequest.type, handleRegister);
-  yield takeLatest(logoutRequest.type, handleLogout);
+export default function* authSaga() {
+  yield takeLatest(registerRequest, handleRegister);
+  yield takeLatest(loginRequest, handleLogin);
 }

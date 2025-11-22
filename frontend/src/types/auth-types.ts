@@ -1,12 +1,15 @@
-export interface User {
-  id: string;
+export interface RegisterRequest {
   fullName: string;
   email: string;
+  password: string;
 }
 
-export interface AuthState {
-  token: string | null;
-  user: User | null;
-  loading: boolean;
-  error: string | null;
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  token: string;
+  fullName?: string | null;
 }

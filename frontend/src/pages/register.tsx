@@ -1,32 +1,53 @@
+// src/pages/register.tsx
 "use client";
 
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import PATH from "@/routes/path";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { registerRequest } from "@/redux/slices/auth-slice";
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
+import {
+  selectAuthLoading,
+  selectAuthError,
+} from "@/redux/selectors/auth-selector";
 
 export default function Register() {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const loading = useAppSelector(selectAuthLoading);
+  const error = useAppSelector(selectAuthError);
+
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if (error) toast.error(error);
+  }, [error]);
+
   const onSubmit = (e: any) => {
     e.preventDefault();
-    toast.success("Registered!");
+    dispatch(registerRequest({ fullName, email, password }));
+    toast.success("Registered successfully. Please login!");
+    navigate(PATH.LOGIN);
   };
 
-  const navigate = useNavigate();
-
   return (
-    <div className="flex h-screen w-screen bg-white">
-      {/* LEFT IMAGE PANEL */}
+    <div className="flex h-screen w-screen ">
+      {/* LEFT IMAGE */}
       <div className="hidden md:flex w-1/2 h-full overflow-hidden">
         <img
           src="https://ik.imagekit.io/pavanagulla19/lion.avif"
           alt="lion image"
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-cover"
         />
       </div>
 
-      {/* RIGHT FORM PANEL */}
+      {/* RIGHT FORM */}
       <div className="flex w-full md:w-1/2 items-center justify-center bg-gray-50">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -34,68 +55,64 @@ export default function Register() {
           transition={{ duration: 0.4 }}
           className="max-w-sm w-full mx-6"
         >
-          {/* Title */}
           <h1 className="text-3xl font-semibold text-gray-900">Sign up</h1>
+
           <p className="text-sm mt-1 text-gray-600">
             Already have an account?{" "}
-            <a
+            <span
               className="text-gray-800 underline cursor-pointer"
               onClick={() => navigate(PATH.LOGIN)}
             >
               Login
-            </a>
+            </span>
           </p>
 
-          {/* FORM */}
-          <form onSubmit={onSubmit} className="space-y-4">
-            {/* FULL NAME */}
+          <form onSubmit={onSubmit} className="space-y-4 mt-4">
             <div>
               <label className="text-sm font-medium text-gray-700">
                 Full name
               </label>
               <Input
-                placeholder="John Doe"
-                type="text"
-                className="mt-1 h-11 bg-white border-gray-300"
+                className="mt-1 h-11 "
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="Enter your full name"
               />
             </div>
 
-            {/* EMAIL */}
             <div>
               <label className="text-sm font-medium text-gray-700">
                 Email address
               </label>
               <Input
-                placeholder="Write your email"
+                className="mt-1 h-11 "
                 type="email"
-                className="mt-1 h-11 bg-white border-gray-300"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Write your email"
               />
             </div>
 
-            {/* PASSWORD */}
             <div>
               <label className="text-sm font-medium text-gray-700">
                 Password
               </label>
               <Input
-                placeholder="Minimum 8 characters"
+                className="mt-1 h-11 "
                 type="password"
-                className="mt-1 h-11 bg-white border-gray-300"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Minimum 8 characters"
               />
             </div>
 
-            {/* Join Button */}
-            <Button className="w-full h-11 bg-gray-800 hover:bg-gray-900 text-white mt-2">
-              Join
+            <Button
+              className="w-full h-11 bg-gray-800 hover:bg-gray-900 text-white mt-2"
+              disabled={loading}
+            >
+              {loading ? "Creating account..." : "Join"}
             </Button>
           </form>
-
-          {/* Terms */}
-          <p className="text-xs text-gray-500 mt-4">
-            By joining, you agree to the{" "}
-            <span className="underline cursor-pointer">Terms</span> and{" "}
-            <span className="underline cursor-pointer">Privacy Policy</span>.
-          </p>
         </motion.div>
       </div>
     </div>
