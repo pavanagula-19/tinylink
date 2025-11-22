@@ -1,9 +1,10 @@
 import axios from "axios";
 
 export const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:8080",
+  baseURL:
+    import.meta.env.VITE_API_BASE_URL || "https://tinylink-popm.onrender.com",
   timeout: 15000,
-  withCredentials: false, // we don't use cookie-based auth; everything is JWT bearer
+  withCredentials: false,
 });
 
 // set Authorization header globally

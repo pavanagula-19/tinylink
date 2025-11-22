@@ -61,7 +61,7 @@ export default function CodeStats() {
   const dispatch = useAppDispatch();
   const links = useAppSelector(selectLinks);
 
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
 
   const link = links.find((l: any) => l.code === code);
 

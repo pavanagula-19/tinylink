@@ -8,7 +8,6 @@ export default function LandingPage() {
 
   return (
     <div className="w-full">
-      {/* HEADER */}
       <motion.header
         initial={{ y: -10, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -16,7 +15,7 @@ export default function LandingPage() {
       >
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <a href="/" className="font-bold text-xl text-foreground">
-            briefly.
+            TinyUrl.
           </a>
 
           <nav className="flex gap-4 items-center">
@@ -43,7 +42,6 @@ export default function LandingPage() {
         </div>
       </motion.header>
 
-      {/* HERO */}
       <section className="container mx-auto px-6 py-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -129,7 +127,6 @@ export default function LandingPage() {
         </motion.div>
       </section>
 
-      {/* WHY SECTION */}
       <section id="why" className="bg-[#221B38] text-white py-20">
         <div className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-12">
           <motion.div
@@ -173,7 +170,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* FEATURES */}
       <section id="features" className="py-20 ">
         <div className="container mx-auto px-6">
           <motion.h2
@@ -222,7 +218,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* FOOTER */}
       <footer className="py-8 border-t">
         <div className="container mx-auto px-6 text-sm text-muted">
           © {new Date().getFullYear()} briefly — Built with TinyLink.

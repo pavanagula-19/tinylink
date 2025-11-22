@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
 import {
   Sheet,
@@ -54,7 +53,6 @@ export default function FiltersDrawer({
           px-8 py-10
         "
       >
-        {/* Header */}
         <SheetHeader className="mb-6">
           <SheetTitle className="flex items-center gap-2 text-xl font-semibold">
             <Filter size={18} className="text-neutral-500" />
@@ -65,9 +63,7 @@ export default function FiltersDrawer({
           </p>
         </SheetHeader>
 
-        {/* BODY */}
         <div className="space-y-8">
-          {/* CODE FILTER */}
           <div className="space-y-2">
             <div className="text-xs uppercase tracking-wide text-neutral-400 flex items-center gap-1">
               <Hash size={14} /> Short Code
@@ -81,7 +77,6 @@ export default function FiltersDrawer({
             />
           </div>
 
-          {/* CLICK RANGE */}
           <div className="space-y-3">
             <div className="text-xs uppercase tracking-wide text-neutral-400 flex items-center gap-1">
               <MousePointer2 size={14} /> Clicks Range
@@ -108,7 +103,6 @@ export default function FiltersDrawer({
             </div>
           </div>
 
-          {/* DATE RANGE */}
           <div className="space-y-3">
             <div className="text-xs uppercase tracking-wide text-neutral-400 flex items-center gap-1">
               <Calendar size={14} /> Date Range
@@ -138,7 +132,6 @@ export default function FiltersDrawer({
           </div>
         </div>
 
-        {/* FOOTER */}
         <SheetFooter className="mt-10 flex gap-3">
           <Button
             variant="outline"
