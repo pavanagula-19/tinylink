@@ -83,6 +83,3 @@ It allows users to:
 
 ---
 
-## 📁 Folder Structure
-
-### Frontend (`/frontend`)
